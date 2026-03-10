@@ -6,5 +6,4 @@ type range.
 
 The suite of operations deal with elementwise, reduction and matmul operations for which a variaety of kernels are provided.
 
-> NOTE: Matmul is work in progress and while reduction kernel is done, the actual concrete implementations of functions like
-> mean, stddev etc are yet to be implemented!
+> NOTE: Matmul is work in progress
