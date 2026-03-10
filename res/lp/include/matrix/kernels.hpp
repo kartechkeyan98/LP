@@ -148,6 +148,9 @@ void scalar_left_binop(const T& s, const matrix<U>& A, matrix<V>& C, binop op){
  */
 template<algebraic T, typename binop>
 matrix<T> reduce(const matrix<T>& A, int axis, binop op, T identity){
+    if(!(axis==0 || axis== 1 || axis== -1)){
+        throw std::runtime_error(error::invalid_axis());
+    }
     Shape sh= A.shape();    // m x n
 
     // -------------------------------
@@ -164,14 +167,12 @@ matrix<T> reduce(const matrix<T>& A, int axis, binop op, T identity){
             #pragma omp parallel for simd
             for(size_t j=0;j<sh[1];j++)res(0,j)= identity;
             return res;
-        }else if(axis==1){ // axis= 1 => reduce rows! (so that only one col at the end)
+        }else{ // axis= 1 => reduce rows! (so that only one col at the end)
             // this is a contiguous and aligned matrix for sure!
             matrix<T> res(sh[0], 1, A.get_alignment());
             #pragma omp parallel for simd
             for(size_t i=0;i<sh[0];i++)res(i,0)= identity;
             return res;
-        }else{
-            throw std::runtime_error(error::invalid_axis());
         }
     }
 
@@ -219,7 +220,7 @@ matrix<T> reduce(const matrix<T>& A, int axis, binop op, T identity){
             res(i,0)= acc;
         }
         return res;
-    }else if(axis== -1){
+    }else{
         // full reduction!
         size_t total= sh[0]*sh[1];
         T result= identity;
@@ -292,7 +293,7 @@ matrix<T> reduce(const matrix<T>& A, int axis, binop op, T identity){
         return res;
     }
     
-    throw std::runtime_error(error::invalid_axis());
+   
     
 }
 
