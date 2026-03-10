@@ -34,7 +34,7 @@ matrix<T> mean(const matrix<T>& A, int axis= -1){
 }
 
 
-template<algebraic T>
+template<ord_algebraic T>
 matrix<T> max(const matrix<T> &A, int axis= -1){
     return reduce(
         A, axis, 
@@ -42,7 +42,7 @@ matrix<T> max(const matrix<T> &A, int axis= -1){
         std::numeric_limits<T>::lowest()
     );
 }
-template<algebraic T>
+template<ord_algebraic T>
 matrix<T> min(const matrix<T> &A, int axis= -1){
     return reduce(
         A, axis, 

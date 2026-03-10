@@ -300,3 +300,6 @@ auto operator^(const T& s, const lp::core::matrix<U>& A){
     return C;
 } 
 
+
+
+

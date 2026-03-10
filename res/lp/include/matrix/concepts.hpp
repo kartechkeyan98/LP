@@ -45,6 +45,14 @@ concept algebraic = requires(T a, const T& b) {
     requires std::is_move_assignable_v<T>;
 };
 
+template<typename T>
+concept ord_algebraic= algebraic<T> && requires(const T& a, const T& b){
+    { a < b } -> std::convertible_to<bool>;
+    { a > b } -> std::convertible_to<bool>;
+    { a <=b } -> std::convertible_to<bool>;
+    { a >=b } -> std::convertible_to<bool>;
+};
+
 
 
 template<typename T>
