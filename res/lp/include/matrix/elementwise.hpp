@@ -12,21 +12,21 @@
 
 namespace lp::core{
 
-template<types::field T, types::field U>
-matrix<U> abs(const matrix<T>& A){
-    matrix<U> res(A.shape(), alignof(U));
+template<types::field T>
+matrix<T> abs(const matrix<T>& A){
+    matrix<T> res(A.shape(), alignof(T));
     matrix_uniop(A, res, [](T x){return std::abs(x);});
     return res;
 }
-template<types::field T, types::field U>
-matrix<U> sqrt(const matrix<T>& A){
-    matrix<U> res(A.shape(), alignof(U));
+template<types::field T>
+matrix<T> sqrt(const matrix<T>& A){
+    matrix<T> res(A.shape(), alignof(T));
     matrix_uniop(A, res, [](T x){return std::sqrt(x);});
     return res;
 }
-template<types::field T, types::field U>
-matrix<U> pow(const matrix<T>& A, double p){
-    matrix<U> res(A.shape(), alignof(U));
+template<types::field T>
+matrix<T> pow(const matrix<T>& A, double p){
+    matrix<T> res(A.shape(), alignof(T));
     matrix_uniop(A, res, [p](T x){return std::pow(x, p);});
     return res;
 }
