@@ -17,3 +17,7 @@
 #include<linalg/factory.hpp>
 #include<linalg/random.hpp>
 
+//algos
+#include<algos/rref.hpp>
+
+

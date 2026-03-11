@@ -148,34 +148,19 @@ void scalar_left_binop(const T& s, const matrix<U>& A, matrix<V>& C, binop op){
  */
 template<types::field T, typename binop>
 matrix<T> reduce(const matrix<T>& A, int axis, binop op, T identity){
+    #ifdef LP_DEBUG
     if(!(axis==0 || axis== 1 || axis== -1)){
         throw std::runtime_error(error::invalid_axis());
     }
-    Shape sh= A.shape();    // m x n
-
     // -------------------------------
     // -------- Empty Matrices -------
     // -------------------------------
-    if(sh[0]== 0|| sh[1]== 0){  // empty matrices handling!
-        if(axis==-1){       // axis= -1 => reduce all!
-            matrix<T> res(1,1,A.get_alignment());
-            res(0,0)= identity;
-            return res;
-        }else if(axis==0){  // axis= 0 => reduce cols! (so that only one row at the end)
-            // this is a contiguous and aligned matrix for sure!
-            matrix<T> res(1, sh[1], A.get_alignment());
-            #pragma omp parallel for simd
-            for(size_t j=0;j<sh[1];j++)res(0,j)= identity;
-            return res;
-        }else{ // axis= 1 => reduce rows! (so that only one col at the end)
-            // this is a contiguous and aligned matrix for sure!
-            matrix<T> res(sh[0], 1, A.get_alignment());
-            #pragma omp parallel for simd
-            for(size_t i=0;i<sh[0];i++)res(i,0)= identity;
-            return res;
-        }
+    if(A.is_empty()){  // empty matrices handling!
+        throw std::runtime_error("Cannot Reduce Empty Matrix!");
     }
+    #endif
 
+    Shape sh= A.shape();
     // -------------------------------
     // ---- Non Empty Matrices -------
     // -------------------------------

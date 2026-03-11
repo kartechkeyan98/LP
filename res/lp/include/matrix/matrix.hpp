@@ -291,6 +291,7 @@ public:
         uintptr_t addr= reinterpret_cast<uintptr_t>(data.get() + offset);
         return (addr % alignment) == 0 && this->is_contiguous();
     }
+    bool is_empty()const{return rows==0||cols==0;}
 
     // views and submatrices (non-const)
     matrix col_view(size_t c){

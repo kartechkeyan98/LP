@@ -73,13 +73,16 @@ matrix<T> min(const matrix<T> &A, int axis= -1){
 inline size_t linear_index(size_t i, size_t j, size_t cols) { return i * cols + j; }
 template<types::ord_field T>
 matrix<size_t> argmax(const matrix<T>& A, int axis=-1) {
+    #ifdef LP_DEBUG
     if (!(axis == -1 || axis == 0 || axis == 1))
         throw std::runtime_error(error::invalid_axis());
 
+    if (A.is_empty())
+        throw std::runtime_error("argmax: empty matrix");
+    #endif
+
     size_t m = A.shape()[0];
     size_t n = A.shape()[1];
-    if (m == 0 || n == 0)
-        throw std::runtime_error("argmax: empty matrix");
 
     if (axis == 0) {
         // Reduce rows → result 1×n (row index of max in each column)
@@ -245,14 +248,15 @@ matrix<size_t> argmax(const matrix<T>& A, int axis=-1) {
 }
 template<types::ord_field T>
 matrix<size_t> argmin(const matrix<T>& A, int axis=-1) {
+    #ifdef LP_DEBUG
     if (!(axis == -1 || axis == 0 || axis == 1))
         throw std::runtime_error(error::invalid_axis());
 
+    if (A.is_empty())
+        throw std::runtime_error("argmin: empty matrix");
+    #endif
     size_t m = A.rows();
     size_t n = A.cols();
-    if (m == 0 || n == 0)
-        throw std::runtime_error("argmax: empty matrix");
-
     if (axis == 0) {
         // Reduce rows → result 1×n (row index of max in each column)
         matrix<size_t> res(1, n);
