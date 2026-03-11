@@ -4,6 +4,10 @@
 #include<concepts>
 #include<random>
 
+#include<utils/utils.hpp>
+#include<utils/concepts.hpp>
+#include<utils/errors.hpp>
+
 #include<matrix/matrix.hpp>
 
 namespace lp{
@@ -12,7 +16,7 @@ namespace linalg{
 constexpr size_t small_size_total= 10000;
 
 // simple stuff
-template<core::algebraic T>
+template<types::field T>
 core::matrix<T> zeros(size_t m, size_t n=1, size_t align= 64){
     core::matrix<T> res(m, n, align);
     size_t total= m*n;
@@ -33,7 +37,7 @@ core::matrix<T> zeros(size_t m, size_t n=1, size_t align= 64){
 
     return res;
 }
-template<core::algebraic T>
+template<types::field T>
 core::matrix<T> eye(size_t n, size_t align= 64){
     core::matrix<T> res= zeros<T>(n,n, align);
 
@@ -51,7 +55,7 @@ core::matrix<T> eye(size_t n, size_t align= 64){
 
     return res;
 }
-template<core::algebraic T>
+template<types::field T>
 core::matrix<T> full(const T& val, size_t m, size_t n=1, size_t align= 64){
     core::matrix<T> res(m,n, align);
     size_t total= m*n;

@@ -9,11 +9,11 @@
 
 #include<cblas.h>
 
-#include<matrix/utils.hpp>
-#include<matrix/matrix.hpp>
-#include<matrix/concepts.hpp>
-#include<matrix/errors.hpp>
+#include<utils/utils.hpp>
+#include<utils/concepts.hpp>
+#include<utils/errors.hpp>
 
+#include<matrix/matrix.hpp>
 
 namespace lp{
 namespace core{
@@ -21,7 +21,7 @@ namespace core{
 /**
  * Element-Wise Operation Kernels
  */
-template<algebraic T, algebraic U, algebraic V, typename binop>
+template<types::field T, types::field U, types::field V, typename binop>
 void matrix_binop(const matrix<T>& A, const matrix<U>& B, matrix<V>& C, binop op){
     // assuming A, B and C have same shape
     Shape sh= A.shape();
@@ -53,7 +53,7 @@ void matrix_binop(const matrix<T>& A, const matrix<U>& B, matrix<V>& C, binop op
         }
     }
 }
-template<algebraic T, algebraic U, algebraic V, typename binop>
+template<types::field T, types::field U, types::field V, typename binop>
 void scalar_binop(const matrix<T>& A, const U& s, matrix<V>& C, binop op){
     // assuming A, B and C have same shape
     Shape sh= A.shape();
@@ -83,7 +83,7 @@ void scalar_binop(const matrix<T>& A, const U& s, matrix<V>& C, binop op){
         }
     }
 }
-template<algebraic T, algebraic U, typename uniop>
+template<types::field T, types::field U, typename uniop>
 void matrix_uniop(const matrix<T>& A, matrix<U>& C, uniop op){
     // assuming that the shapes are same!
     Shape sh= A.shape();
@@ -112,7 +112,7 @@ void matrix_uniop(const matrix<T>& A, matrix<U>& C, uniop op){
         }
     }
 }
-template<algebraic T, algebraic U, algebraic V, typename binop>
+template<types::field T, types::field U, types::field V, typename binop>
 void scalar_left_binop(const T& s, const matrix<U>& A, matrix<V>& C, binop op){
     // assuming A, B and C have same shape
     Shape sh= A.shape();
@@ -146,7 +146,7 @@ void scalar_left_binop(const T& s, const matrix<U>& A, matrix<V>& C, binop op){
 /**
  * Reduction Kernels [10 Mar 2025]
  */
-template<algebraic T, typename binop>
+template<types::field T, typename binop>
 matrix<T> reduce(const matrix<T>& A, int axis, binop op, T identity){
     if(!(axis==0 || axis== 1 || axis== -1)){
         throw std::runtime_error(error::invalid_axis());

@@ -2,25 +2,30 @@
 
 #include<functional>
 #include<iostream>
+#include<cmath>
+
+#include<utils/utils.hpp>
+#include<utils/concepts.hpp>
+#include<utils/errors.hpp>
 
 #include<matrix/matrix.hpp>
 #include<matrix/kernels.hpp>
-#include<matrix/concepts.hpp>
+
 
 
 
 namespace lp{
 namespace core{
 
-template<algebraic T>
+template<types::field T>
 matrix<T> sum(const matrix<T>& A, int axis= -1){
     return reduce(A, axis, std::plus<T>(), T(0));
 }
-template<algebraic T>
+template<types::field T>
 matrix<T> prod(const matrix<T>& A, int axis= -1){
     return reduce(A, axis, std::multiplies<T>(), T(1));
 }
-template<algebraic T>
+template<types::field T>
 matrix<T> mean(const matrix<T>& A, int axis= -1){
     size_t count;
     Shape sh= A.shape();
@@ -34,7 +39,7 @@ matrix<T> mean(const matrix<T>& A, int axis= -1){
 }
 
 
-template<ord_algebraic T>
+template<types::ord_field T>
 matrix<T> max(const matrix<T> &A, int axis= -1){
     return reduce(
         A, axis, 
@@ -42,7 +47,7 @@ matrix<T> max(const matrix<T> &A, int axis= -1){
         std::numeric_limits<T>::lowest()
     );
 }
-template<ord_algebraic T>
+template<types::ord_field T>
 matrix<T> min(const matrix<T> &A, int axis= -1){
     return reduce(
         A, axis, 
@@ -51,7 +56,7 @@ matrix<T> min(const matrix<T> &A, int axis= -1){
     );
 }
 
-template<algebraic T>
+template<types::field T>
 matrix<T> norm(const matrix<T>& A, double p= 2., int axis= -1){
     matrix<T> r= reduce(
         A, axis,

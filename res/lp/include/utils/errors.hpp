@@ -3,7 +3,7 @@
 #include<string>
 #include<sstream>
 
-#include<matrix/utils.hpp>
+#include<utils/utils.hpp>
 
 namespace lp{
 namespace error{

@@ -1,7 +1,10 @@
 #pragma once
 
+#include<utils/utils.hpp>
+#include<utils/concepts.hpp>
+#include<utils/errors.hpp>
+
 #include<matrix/matrix.hpp>
-#include<matrix/concepts.hpp>
 #include<matrix/kernels.hpp>
 
 // not putting them in namespace so that even without
@@ -11,7 +14,7 @@
 /**
  * Matrix Ops [Unary]
  */
-template<lp::core::algebraic T>
+template<lp::types::field T>
 lp::core::matrix<T> operator-(const lp::core::matrix<T>& A){
     lp::core::matrix<T> res(A.shape(), A.get_alignment());
     lp::core::matrix_uniop(A, res, [](const T& x){return -x;});
@@ -28,7 +31,7 @@ lp::core::matrix<T> operator~(const lp::core::matrix<T>& A){
  *  Matrix-Matrix Ops [Binary]
  **/ 
 // Arithmetic
-template<lp::core::algebraic T, lp::core::algebraic U>
+template<lp::types::field T, lp::types::field U>
 auto operator+(const lp::core::matrix<T>& A, const lp::core::matrix<U>& B){
     #ifdef LP_DEBUG
     if(A.shape()!= B.shape()) 
@@ -39,7 +42,7 @@ auto operator+(const lp::core::matrix<T>& A, const lp::core::matrix<U>& B){
     lp::core::matrix_binop(A, B, C, std::plus<>());
     return C;
 }
-template<lp::core::algebraic T, lp::core::algebraic U>
+template<lp::types::field T, lp::types::field U>
 auto operator-(const lp::core::matrix<T>& A, const lp::core::matrix<U>& B){
     #ifdef LP_DEBUG
     if(A.shape()!= B.shape()) 
@@ -50,7 +53,7 @@ auto operator-(const lp::core::matrix<T>& A, const lp::core::matrix<U>& B){
     lp::core::matrix_binop(A, B, C, std::minus<>());
     return C;
 }
-template<lp::core::algebraic T, lp::core::algebraic U>
+template<lp::types::field T, lp::types::field U>
 auto operator*(const lp::core::matrix<T>& A, const lp::core::matrix<U>& B){
     #ifdef LP_DEBUG
     if(A.shape()!= B.shape()) 
@@ -61,7 +64,7 @@ auto operator*(const lp::core::matrix<T>& A, const lp::core::matrix<U>& B){
     lp::core::matrix_binop(A, B, C, std::multiplies<>());
     return C;
 }
-template<lp::core::algebraic T, lp::core::algebraic U>
+template<lp::types::field T, lp::types::field U>
 auto operator/(const lp::core::matrix<T>& A, const lp::core::matrix<U>& B){
     #ifdef LP_DEBUG
     if(A.shape()!= B.shape()) 
@@ -148,28 +151,28 @@ auto operator^(const lp::core::matrix<T>& A, const lp::core::matrix<U>& B){
  * Matrix-Scalar Ops [Binary] (Scalar Right)
  */
 // Arithmetic
-template<lp::core::algebraic T, lp::core::scalar U>
+template<lp::types::field T, lp::types::field U>
 auto operator+(const lp::core::matrix<T>& A, const U& s){
     using V= std::common_type_t<T,U>;
     lp::core::matrix<V> C(A.shape(), A.get_alignment());
     lp::core::scalar_binop(A, s, C, std::plus<>());
     return C;
 }
-template<lp::core::algebraic T, lp::core::scalar U>
+template<lp::types::field T, lp::types::field U>
 auto operator-(const lp::core::matrix<T>& A, const U& s){
     using V= std::common_type_t<T,U>;
     lp::core::matrix<V> C(A.shape(), A.get_alignment());
     lp::core::scalar_binop(A, s, C, std::minus<>());
     return C;
 }
-template<lp::core::algebraic T, lp::core::scalar U>
+template<lp::types::field T, lp::types::field U>
 auto operator*(const lp::core::matrix<T>& A, const U& s){
     using V= std::common_type_t<T,U>;
     lp::core::matrix<V> C(A.shape(), A.get_alignment());
     lp::core::scalar_binop(A, s, C, std::multiplies<>());
     return C;
 }
-template<lp::core::algebraic T, lp::core::scalar U>
+template<lp::types::field T, lp::types::field U>
 auto operator/(const lp::core::matrix<T>& A, const U& s){
     using V= std::common_type_t<T,U>;
     lp::core::matrix<V> C(A.shape(), A.get_alignment());
@@ -225,28 +228,28 @@ auto operator^(const lp::core::matrix<T>& A, const U& s){
  * Scalar Matrix [Binary] (Scalar Left)
  */
 // Arithmetic
-template<lp::core::scalar T, lp::core::algebraic U>
+template<lp::types::field T, lp::types::field U>
 auto operator+(const T& s, const lp::core::matrix<U>& A){
     using V= std::common_type_t<T,U>;
     lp::core::matrix<V> C(A.shape(), A.get_alignment());
     lp::core::scalar_left_binop(s, A, C, std::plus<>());
     return C;
 }
-template<lp::core::scalar T, lp::core::algebraic U>
+template<lp::types::field T, lp::types::field U>
 auto operator-(const T& s, const lp::core::matrix<U>& A){
     using V= std::common_type_t<T,U>;
     lp::core::matrix<V> C(A.shape(), A.get_alignment());
     lp::core::scalar_left_binop(s, A, C, std::minus<>());
     return C;
 }
-template<lp::core::scalar T, lp::core::algebraic U>
+template<lp::types::field T, lp::types::field U>
 auto operator*(const T& s, const lp::core::matrix<U>& A){
     using V= std::common_type_t<T,U>;
     lp::core::matrix<V> C(A.shape(), A.get_alignment());
     lp::core::scalar_left_binop(s, A, C, std::multiplies<>());
     return C;
 }
-template<lp::core::scalar T, lp::core::algebraic U>
+template<lp::types::field T, lp::types::field U>
 auto operator/(const T& s, const lp::core::matrix<U>& A){
     using V= std::common_type_t<T,U>;
     lp::core::matrix<V> C(A.shape(), A.get_alignment());

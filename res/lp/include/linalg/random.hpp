@@ -3,20 +3,23 @@
 #include<concepts>
 #include<random>
 
-#include<matrix/concepts.hpp>
+#include<utils/utils.hpp>
+#include<utils/concepts.hpp>
+#include<utils/errors.hpp>
+
 #include<matrix/matrix.hpp>
 
 
 namespace lp{
 namespace random{
 
-template<core::algebraic T, typename Dist>
+template<types::field T, typename Dist>
 T random(Dist dist, unsigned seed= std::random_device{}()){
     std::mt19937 rng(seed);
     return static_cast<T>(dist(rng));
 }
 
-template<core::algebraic T>
+template<types::field T>
 T uniform(
     T min= static_cast<T>(0), T max= static_cast<T>(1), 
     unsigned seed= std::random_device{}()
@@ -30,7 +33,7 @@ T uniform(
     T res= random<T>(dist, seed);
     return res;
 }
-template<core::algebraic T> requires std::floating_point<T>
+template<types::field T> requires std::floating_point<T>
 T randn(
     T mu= static_cast<T>(0), T stddev= static_cast<T>(1), 
     unsigned seed= std::random_device{}()
@@ -43,7 +46,7 @@ T randn(
 
 
 // random matrices
-template<core::algebraic T, typename Dist>
+template<types::field T, typename Dist>
 void fill_random(core::matrix<T>& mat, Dist dist, unsigned seed= std::random_device{}()){
     // determine the number of threads
     int num_threads= 1;
@@ -94,7 +97,7 @@ void fill_random(core::matrix<T>& mat, Dist dist, unsigned seed= std::random_dev
     }
     return;
 }
-template<core::algebraic T>
+template<types::field T>
 core::matrix<T> uniform_mat(
     size_t m, size_t n=1, 
     T min=static_cast<T>(0), T max= static_cast<T>(1),
@@ -110,7 +113,7 @@ core::matrix<T> uniform_mat(
     fill_random(mat, dist, seed);
     return mat;
 }
-template<core::algebraic T> requires std::floating_point<T>
+template<types::field T> requires std::floating_point<T>
 core::matrix<T> randn_mat(
     size_t m, size_t n=1,
     T mu= static_cast<T>(0), T stddev= static_cast<T>(1),

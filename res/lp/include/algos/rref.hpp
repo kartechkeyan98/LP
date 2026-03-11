@@ -20,7 +20,11 @@ core::matrix<T> rref(const core::matrix<T>& A, T tol= T(-1)){
         tol= static_cast<T>(sh[1])*std::numeric_limits<T>::epsilon()*std::max(T(1), mx(0,0));
     }
 
-    
+    for(size_t i=0, n= min(sh[0], sh[1]);i<n;i++){
+        // find the pivot for current row!
+        
+    }
+
 
 }
 
