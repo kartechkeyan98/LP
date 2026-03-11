@@ -1,15 +1,18 @@
 #pragma once
 
+#include<utils/concepts.hpp>
+#include<utils/utils.hpp>
+
 #include<matrix/matrix.hpp>
 #include<matrix/arithmetic.hpp>
 #include<matrix/elementwise.hpp>
-#include<matrix/concepts.hpp>
+
 
 namespace lp{
 namespace linalg{
 
 // we are using ordered algebraic for numerical stability
-template<core::ord_algebraic T>
+template<types::ord_field T>
 core::matrix<T> rref(const core::matrix<T>& A, T tol= T(-1)){
     core::Shape sh= A.shape();
 

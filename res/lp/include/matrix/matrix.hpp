@@ -442,8 +442,6 @@ template<typename> struct is_matrix : std::false_type {};
 template<typename T> struct is_matrix<matrix<T>> : std::true_type {};
 template<typename T> inline constexpr bool is_matrix_v = is_matrix<T>::value;
 
-template<typename T>
-concept scalar = !is_matrix_v<T> && types::algebraic<T>;
 
 }
 }
