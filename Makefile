@@ -40,7 +40,7 @@ INCFLAGS= -I$(LP_HOME)/include -I$(OPENBLAS_HOME)/include -I$(GTEST_HOME)/includ
 LIBFLAGS= -L$(GTEST_LIB) -L$(OPENBLAS_LIB)
 
 TARGET  = a$(TARGET_EXT)
-SOURCES = ./test/matrix/test4.cpp
+SOURCES = ./test/algos/rref.cpp
 
 all: $(TARGET)
 
