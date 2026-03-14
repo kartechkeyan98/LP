@@ -5,7 +5,7 @@
 
 # Compilers and tools
 CXX         	= g++
-CXXFLAGS    	= -std=c++20 -O2
+CXXFLAGS    	= -std=c++20 -O2 -march=native
 LDFLAGS     	= -fopenmp
 
 # directories to different things
